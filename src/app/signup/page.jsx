@@ -188,11 +188,13 @@
 //   );
 // }
 "use client"
+;
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useRouter } from "next/navigation";
 export default function SignUp({ history }) {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
     name: '',
@@ -227,9 +229,8 @@ export default function SignUp({ history }) {
         body: JSON.stringify({ email }),
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
         setOtpSent(true);
         toast.success('OTP sent successfully!');
       } else {
@@ -267,12 +268,10 @@ export default function SignUp({ history }) {
         body: form,
       });
 
-      if (response.ok) {
+      if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
         toast.success('Sign Up successful!');
-        // Redirect or perform other actions upon successful signup
-        history.push('/login'); // Assuming you have a route for the login page
+        router.push('/login');
       } else {
         const errorResult = await response.json();
         console.error(errorResult);

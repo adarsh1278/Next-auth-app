@@ -50,7 +50,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
-
+import { useRouter } from "next/navigation";
 import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
@@ -58,7 +58,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const router = useRouter();
   const handleLogin = async () => {
     try {
       if (!username && !email) {
@@ -75,7 +75,8 @@ const LoginForm = () => {
       });
 
       console.log("Login successful");
-      toast.success("Successfully Logged!!");
+      toast.success("Successfully Logged!! forwading to login page");
+      router.push("/profile")
       // If login is successful, you might want to redirect or perform some other action
     } catch (error) {
       console.error("Login error:", error);

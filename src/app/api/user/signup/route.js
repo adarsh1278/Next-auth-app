@@ -17,7 +17,7 @@ export async function POST(req) {
     const otp = data.get('otp');
 
     console.log("data is given below");
-    console.log(username, Name, password, email);
+    console.log(username, Name, password, email , otp);
 
     if (!file || !username || !Name || !email || !password) {
       return NextResponse.json({ "message": "No image found or missing required fields", "error": true }, { status: 400 });
@@ -72,7 +72,7 @@ console.log("Otp deleted");
     return NextResponse.json({
       message: "User created successfully",
       user: savedUser
-    });
+    } , {status:200});
   } catch (error) {
     console.error(error);
     return NextResponse.json({ "message": "Internal Server Error", "error": true }, { status: 500 });

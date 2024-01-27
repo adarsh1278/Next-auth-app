@@ -52,7 +52,7 @@ export async function POST(NextRequest) {
     // Send the email
     await transporter.sendMail(mailOptions);
 
-    return NextResponse.json({ message: 'Email sent successfully' });
+    return NextResponse.json({ message: 'Email sent successfully' }, {status:"200"});
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'Error sending email' });
