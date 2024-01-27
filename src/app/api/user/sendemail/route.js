@@ -39,7 +39,7 @@ export async function POST(NextRequest) {
     console.log("OTP saved successfully");
 
     const subject = "OTP Verification";
-    const text = `Your OTP for login xx.com is ${otp}`;
+    const text = `Your OTP for login nextauth.com is ${otp}`;
 
     // Create an email message
     const mailOptions = {
