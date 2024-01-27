@@ -76,7 +76,7 @@ console.log("Login succefully")
 const response = NextResponse.json({
   message: "Login successful",
   success: true,
-})
+},{status:"200"})
 response.cookies.set("token", accessToken, {
   httpOnly: true, 
   

@@ -46,19 +46,23 @@
 // };
 
 // export default LoginForm;
+// Import necessary packages and modules
 "use client";
 import React, { useState } from "react";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { useRouter } from "next/navigation";
+import Link from 'next/link';
 import "react-toastify/dist/ReactToastify.css";
 
+// Define the LoginForm component
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+
   const handleLogin = async () => {
     try {
       if (!username && !email) {
@@ -74,10 +78,17 @@ const LoginForm = () => {
         email,
       });
 
-      console.log("Login successful");
-      toast.success("Successfully Logged!! forwading to login page");
-      router.push("/profile")
-      // If login is successful, you might want to redirect or perform some other action
+      if (response.status === 200) {
+        console.log("Login successful");
+        toast.success("Successfully Logged!! Forwarding to the profile page");
+        setTimeout(() => {
+          router.push('/profile');
+        }, 2000);
+        // If login is successful, you might want to redirect or perform some other action
+      } else {
+        console.error("Login error:", response);
+        toast.error("Login failed. Please check your credentials.");
+      }
     } catch (error) {
       console.error("Login error:", error);
       toast.error("Login failed. Please check your credentials.");
@@ -127,7 +138,7 @@ const LoginForm = () => {
       <button
         className={`bg-orange-400 p-5 ${
           loading ? "opacity-50 cursor-not-allowed" : ""
-        }`}
+        } transition-all hover:bg-orange-500`}
         onClick={handleLogin}
         disabled={loading}
       >
@@ -137,9 +148,17 @@ const LoginForm = () => {
           "Submit"
         )}
       </button>
+      <div className="mt-3 text-sm text-gray-500">
+        Not registered?{" "}
+        <Link href="/signup"
+           className="text-blue-500 hover:underline">Sign up here
+        </Link>
+      </div>
       <ToastContainer />
     </div>
   );
 };
 
+// Export the LoginForm component
 export default LoginForm;
+

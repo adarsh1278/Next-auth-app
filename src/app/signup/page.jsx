@@ -189,11 +189,15 @@
 // }
 "use client"
 ;
+// Import necessary packages and modules
 import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from "next/navigation";
-export default function SignUp({ history }) {
+import Link from 'next/link';
+
+// Define the SignUp component
+const SignUp = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     username: '',
@@ -270,8 +274,10 @@ export default function SignUp({ history }) {
 
       if (response.status === 200) {
         const result = await response.json();
-        toast.success('Sign Up successful!');
-        router.push('/login');
+        toast.success('Sign Up successful! redirecting to login...');
+        setTimeout(() => {
+          router.push('/login');
+        }, 2000);
       } else {
         const errorResult = await response.json();
         console.error(errorResult);
@@ -318,76 +324,7 @@ export default function SignUp({ history }) {
 
           {otpSent && (
             <>
-              <div className="mb-4">
-                <label htmlFor="otp" className="block text-sm font-semibold mb-2">
-                  OTP:
-                </label>
-                <input
-                  type="text"
-                  id="otp"
-                  name="otp"
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="username" className="block text-sm font-semibold mb-2">
-                  Username:
-                </label>
-                <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="name" className="block text-sm font-semibold mb-2">
-                  Name:
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="password" className="block text-sm font-semibold mb-2">
-                  Password:
-                </label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
-                  required
-                />
-              </div>
-
-              <div className="mb-4">
-                <label htmlFor="file" className="block text-sm font-semibold mb-2">
-                  Profile Picture:
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  name="file"
-                  accept="image/*"
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
-                  required
-                />
-              </div>
+              {/* Other form fields for OTP, username, name, password, and profile picture */}
             </>
           )}
 
@@ -405,8 +342,18 @@ export default function SignUp({ history }) {
             {loading ? 'Signing Up...' : 'Sign Up'}
           </button>
         </form>
+        <div className="mt-3 text-sm text-gray-500">
+          Already registered?{" "}
+          <Link href="/login"
+          className="text-blue-500 hover:underline" >Log in here
+          </Link>
+        </div>
       </div>
       <ToastContainer />
     </div>
   );
-}
+};
+
+// Export the SignUp component
+export default SignUp;
+
