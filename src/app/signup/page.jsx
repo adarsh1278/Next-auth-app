@@ -324,13 +324,83 @@ const SignUp = () => {
 
           {otpSent && (
             <>
-              {/* Other form fields for OTP, username, name, password, and profile picture */}
+              <div className="mb-4">
+                <label htmlFor="otp" className="block text-sm font-semibold mb-2">
+                  OTP:
+                </label>
+                <input
+                  type="text"
+                  id="otp"
+                  name="otp"
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="username" className="block text-sm font-semibold mb-2">
+                  Username:
+                </label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="name" className="block text-sm font-semibold mb-2">
+                  Name:
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="password" className="block text-sm font-semibold mb-2">
+                  Password:
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
+                  required
+                />
+              </div>
+
+              <div className="mb-4">
+                <label htmlFor="file" className="block text-sm font-semibold mb-2">
+                  Profile Picture:
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  accept="image/*"
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border rounded-md text-white bg-gray-700"
+                  required
+                />
+              </div>
             </>
           )}
 
           {signupError && (
             <div className="mb-4 text-red-500">{signupError}</div>
           )}
+
 
           <button
             type="submit"
