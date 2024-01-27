@@ -47,17 +47,26 @@
 
 // export default LoginForm;
 "use client";
-import { useState } from "react";
-
+import React, { useState } from "react";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
+      if (!username && !email) {
+        toast.error("Please enter either username or email.");
+        return;
+      }
+
+      setLoading(true);
       console.log("Logging in...");
       const response = await axios.post("/api/user/login", {
         username,
@@ -66,23 +75,22 @@ const LoginForm = () => {
       });
 
       console.log("Login successful");
-      toast.success('Successfully Logged !!');
+      toast.success("Successfully Logged!!");
       // If login is successful, you might want to redirect or perform some other action
-
     } catch (error) {
       console.error("Login error:", error);
-      toast.error('Login failed. Please check your credentials.');
+      toast.error("Login failed. Please check your credentials.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="gap-6 w-screen h-screen bg-slate-600 flex flex-col justify-center items-center">
-      <div className="relative w-full sm:w-1/3 drop-shadow-2xl shadow-2xl text-xl ">
+    <div className="gap-6 w-screen h-screen bg-gray-900 flex flex-col justify-center items-center text-white">
+      <div className="relative w-full sm:w-1/3 drop-shadow-2xl shadow-2xl text-xl">
         <input
-          onChange={(e) => {
-            setUsername(e.target.value);
-          }}
-          className="peer w-full h-full bg-transparent text-blue-600 text-3xl font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 text-blue-500"
+          onChange={(e) => setUsername(e.target.value)}
+          className="peer w-full h-full bg-transparent text-blue-600 text-3xl font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 text-white"
           placeholder=" "
         />
         <label
@@ -93,10 +101,8 @@ const LoginForm = () => {
       </div>
       <div className="relative w-full sm:w-1/3 drop-shadow-2xl shadow-2xl text-xl">
         <input
-          onChange={(e) => {
-            setEmail(e.target.value);
-          }}
-          className="peer w-full h-full bg-transparent text-blue-600 text-3xl font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 text-blue-500"
+          onChange={(e) => setEmail(e.target.value)}
+          className="peer w-full h-full bg-transparent text-blue-600 text-3xl font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 border-t-transparent focus:border-t-transparent px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-gray-900 text-white"
           placeholder=" "
         />
         <label
@@ -107,10 +113,8 @@ const LoginForm = () => {
       </div>
       <div className="relative w-full min-w-[200px] h-11 sm:w-1/3">
         <input
-          onChange={(e) => {
-            setPassword(e.target.value);
-          }}
-          className="w-full h-full px-3 py-3 font-sans text-blue-500 p-5 text-2xl font-normal transition-all bg-transparent border rounded-md peer text-blue-gray-700 outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 border-t-transparent focus:border-t-transparent border-blue-gray-200 focus:border-gray-900 text-blue-500"
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full h-full px-3 py-3 font-sans text-blue-500 p-5 text-2xl font-normal transition-all bg-transparent border rounded-md peer text-blue-gray-700 outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 focus:border-2 border-t-transparent focus:border-t-transparent border-blue-gray-200 focus:border-gray-900 text-white"
           placeholder=" "
         />
         <label
@@ -119,9 +123,20 @@ const LoginForm = () => {
           Input password
         </label>
       </div>
-      <button className="bg-orange-400 p-5" onClick={handleLogin}>
-        Submit
+      <button
+        className={`bg-orange-400 p-5 ${
+          loading ? "opacity-50 cursor-not-allowed" : ""
+        }`}
+        onClick={handleLogin}
+        disabled={loading}
+      >
+        {loading ? (
+          <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-blue-500 border-solid"></div>
+        ) : (
+          "Submit"
+        )}
       </button>
+      <ToastContainer />
     </div>
   );
 };
