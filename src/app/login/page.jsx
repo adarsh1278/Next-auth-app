@@ -77,9 +77,17 @@ const LoginForm = () => {
         password,
         email,
       });
+      console.log("response is below")
+      console.dir(response)
+      const data = response.data;
+   
+      console.log(`stastus is ${data.status}`)
+      console.log(`message is ${data.body.message}`)
+     
 
-      if (response.status === 200) {
-        console.log("Login successful");
+console.dir(response)
+      if (data.status == 200) {
+        console.log("Login successful in terminal");
         toast.success("Successfully Logged!! Forwarding to the profile page");
         setTimeout(() => {
           router.push('/profile');
@@ -87,7 +95,7 @@ const LoginForm = () => {
         // If login is successful, you might want to redirect or perform some other action
       } else {
         console.error("Login error:", response);
-        toast.error("Login failed. Please check your credentials.");
+        toast.error(data.body.message);
       }
     } catch (error) {
       console.error("Login error:", error);

@@ -3,7 +3,8 @@ import { Jwt } from "jsonwebtoken";
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
 import connectdb from "@/dbConfig/dbconfig";
-connectdb()
+
+connectdb();
 const generateAccessTokenAndRefreshTokens = async (userId) => {
   try {
     const user = await User.findById(userId);
@@ -22,6 +23,7 @@ const generateAccessTokenAndRefreshTokens = async (userId) => {
 
 export async function POST(NextRequest) {
   try {
+    connectdb();
    console.log("username below");
    const { username, password, email } = await NextRequest.json();
 
@@ -71,18 +73,23 @@ export async function POST(NextRequest) {
     const options = {
       httpOnly: true,
       secure: true,
+      maxage:1,
     };
 console.log("Login succefully")
+
 const response = NextResponse.json({
-  message: "Login successful",
-  success: true,
-},{status:"200"})
-response.cookies.set("token", accessToken, {
-  httpOnly: true, 
-  
-}
+
+  status: 200,
+  body: {
+    message: "User login succefully",
+    success: true,
+  },
+
+})
+response.cookies.set("token", accessToken, options
 )
 console.log("cokkie send succefully");
+// console.log(`response status is ${response.data.status}`)
 return response;
   } catch (error) {
     console.error(error);
